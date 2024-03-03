@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>newaccount</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+	
+	function createRequestObject() {
+    var tmpXmlHttpObject;
+    if (window.XMLHttpRequest) {
+            tmpXmlHttpObject = new XMLHttpRequest();
+    } else if (window.ActiveXObject) {
+        tmpXmlHttpObject = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+
+    return tmpXmlHttpObject;
+}
+
+
+var http = createRequestObject();
+
+function makeGetRequest() {
+    no=document.frm.accno.value;
+    http.open('get', 'Available.jsp?accno=' + no);
+    http.onreadystatechange = processResponse;
+    http.send(null);
+}
+
+function processResponse() {
+    if(http.readyState == 4){
+        var response = http.responseText;
+        document.getElementById('mess').innerHTML = response;
+    }
+}
+
+	
+</script>
+
+</head>
+<body style="margin-top: 35px;">
+    <div class="container">
+        <h1 class="display-4">New Account</h1>
+        <hr>
+        <form name="frm" action="OpenAccount" method="post">
+            <table>
+                <tr>
+                    <td>Account Number</td>
+                    <td><input type="number" name="accno" value="0" required autocomplete="off" class="form-control"></td>
+                    <td style="padding-left: 20px;"><div id="mess"></div></td>
+                </tr>
+                <tr>
+                    <td>Name</td>
+                    <td><input type="text" name="accnm" required autocomplete="off" class="form-control" onfocus="makeGetRequest()"></td>
+                </tr>
+                <tr>
+                    <td>Type</td>
+                    <td>
+                        <select name="acctype" class="form-control">
+                            <option value="saving">Saving</option>
+                            <option value="fixed">Fixed</option>
+                            <option value="current">Current</option>
+                            <option value="ppf">PPF</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Balance</td>
+                    <td><input type="number" name="balance" required autocomplete="off" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td><input type="submit" value="Submit" class="btn btn-outline-primary"></td>
+                    <td></td>
+                </tr>
+            </table>
+        </form>
+
+    </div>
+
+</body>
+</html>
